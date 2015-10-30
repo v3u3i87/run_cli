@@ -359,3 +359,31 @@ if(!function_exists('getArgs')){
 }
 
 
+if(!function_exists('postData')){
+    /**
+    * 模拟提交
+    */
+    function postData($_param=array()){
+        $url = isset($_param['url']) ? $_param['url'] : '';
+        $data = isset($_param['data']) ? $_param['data'] : array();
+        $type = isset($_param['type']) ? $_param['type'] : 'POST';
+        $mode = isset($_param['mode']) ? $_param['mode'] : true;
+        $header = isset($_param['header']) ? $_param['header'] : null;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        if($header) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        }
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36');
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);//数据
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $body = curl_exec($ch);
+        curl_close($ch);
+        return $body;
+    }
+}

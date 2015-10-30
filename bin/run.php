@@ -47,7 +47,7 @@ class Run
     static function setExit(){
         echo "\r\n";
         $endtime = (microtime(true)) - RUNTIME;
-        echo $endtime;
+        echo 'runTime:'.$endtime;
         echo "\r\n";
         exit('--exit the program'.'---'."\r\n");
     }
